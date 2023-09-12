@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Sep  2 08:48:55 2023
+
+@author: RAJESWARI
+"""
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+dataset = pd.read_csv("C:\\Users\\RAJESWARI\\Downloads\\iphone_purchase_records.csv")
+print(dataset)
+X=dataset[['Age','Salary']]
+Y=dataset['Purchase Iphone']
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+k=3
+knn_reg=KNeighborsClassifier(n_neighbors=k)
+knn_reg.fit(X_train,Y_train)
+y_pred=knn_reg.predict(X_test)
+print(y_pred)
+accuracy=accuracy_score(Y_test,y_pred)
+print("ACCURACY:",accuracy)
+
+import matplotlib.pyplot as plt 
+plt.figure(figsize=(8, 6))
+plt.scatter(X_test[Y_test == 0]['Age'], X_test[Y_test == 0]['Salary'], color='red', label='No iPhone Purchase')
+plt.scatter(X_test[Y_test == 1]['Age'], X_test[Y_test == 1]['Salary'], color='Green', label='iPhone Purchase')
+plt.title("Age and Salary vs. iPhone Purchase (Test Data)")
+plt.xlabel('Age')
+plt.ylabel('Salary')
+plt.legend()
+plt.show()
